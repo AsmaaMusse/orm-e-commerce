@@ -13,7 +13,7 @@ Category.init(
       primaryKey: true,
     },
 
-    categoryId: {
+    category_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -22,7 +22,7 @@ Category.init(
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    underscored: false,
+    underscored: true,
     modelName: "category",
   }
 );

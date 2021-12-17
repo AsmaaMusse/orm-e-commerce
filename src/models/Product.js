@@ -20,9 +20,8 @@ Product.init(
     },
 
     price: {
+      type: DataTypes.DECIMAL,
       allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
       validate: {
         isDecimal: true,
       },
@@ -49,7 +48,7 @@ Product.init(
     sequelize,
     timestamps: false,
     freezeTableName: true,
-    underscored: false,
+    underscored: true,
     modelName: "product",
   }
 );
