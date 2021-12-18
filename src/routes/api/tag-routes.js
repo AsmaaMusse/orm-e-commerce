@@ -24,6 +24,7 @@ router.get("/", async (req, res) => {
 
     if (!getTags) {
       res.status(404).json({ message: "No Tag has been found" });
+      return;
     }
     res.status(200).json(getTags);
   } catch (error) {
@@ -48,6 +49,7 @@ router.get("/:id", async (req, res) => {
 
     if (!getTag) {
       res.status(404).json({ message: "No 'Tag by Id' found" });
+      return;
     }
     res.status(200).json(getTag);
   } catch (error) {
@@ -79,6 +81,7 @@ router.put("/:id", async (req, res) => {
 
     if (!updateTag) {
       res.status(404).json({ message: "No 'update tag by Id' found" });
+      return;
     }
     res.status(200).json(updateTag);
   } catch (error) {
@@ -98,6 +101,7 @@ router.delete("/:id", async (req, res) => {
 
     if (!deleteTag) {
       res.status(404).json({ message: "No 'delete Tag by Id' found" });
+      return;
     }
     res.status(200).json(deleteTag);
   } catch (error) {

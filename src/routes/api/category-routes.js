@@ -16,6 +16,11 @@ router.get("/", async (req, res) => {
         attributes: ["id", "product_name", "price", "stock", "category_id"],
       },
     });
+
+    if (!getCategories) {
+      res.status(404).json({ message: "No Categories found" });
+      return;
+    }
     res.status(200).json(getCategories);
   } catch (error) {
     console.error(error.message);
