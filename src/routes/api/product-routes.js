@@ -6,19 +6,29 @@ const { Product, Category, Tag, ProductTag } = require("../../models");
 
 const router = Router();
 
-// get all products
 router.get("/", (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   try {
-    res.status(200).json();
+    const getProducts = await Product.findAll({
+      attributes: ["id", "product_name", "price", "stock", "category_id"],
+      include: [
+        {
+          model: Category,
+          attributes: ["id", "Category_name"],
+        },
+        {
+          model: Tag,
+          attributes: ["id", "Tag_name"],
+        },
+      ],
+    }).then(() => res.status(200).json(getProducts));
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Error!:getProductRouter" });
   }
 });
 
-// get one product
 router.get("/:id", (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
@@ -30,7 +40,6 @@ router.get("/:id", (req, res) => {
   }
 });
 
-// create new product
 router.post("/", (req, res) => {
   /* req.body should look like this...
     {

@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
     res.status(200).json(getCategories);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ error: "Error!:getCategories" });
+    res.status(500).json({ error: "Error!:getCategoriesRouter" });
   }
 });
 
@@ -35,6 +35,12 @@ router.get("/:id", async (req, res) => {
         },
       ],
     });
+
+    if (!getCategory) {
+      res.status(404).json({ message: "No get category Id found" });
+      return;
+    }
+
     res.status(200).json(getCategory);
   } catch (error) {
     console.error(error.message);
@@ -61,6 +67,12 @@ router.put("/:id", async (req, res) => {
         id: req.params.id,
       },
     });
+
+    if (!updateCategory) {
+      res.status(404).json({ message: "No update category Id found" });
+      return;
+    }
+
     res.status(200).json(updateCategory);
   } catch (error) {
     console.error(error.message);
@@ -76,6 +88,11 @@ router.delete("/:id", async (req, res) => {
         id: req.params.id,
       },
     });
+
+    if (!deleteCategory) {
+      res.status(404).json({ message: "No delete category Id found" });
+      return;
+    }
     res.status(200).json(deleteCategory);
   } catch (error) {
     console.error(error.message);
