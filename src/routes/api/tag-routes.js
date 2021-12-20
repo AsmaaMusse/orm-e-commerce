@@ -1,8 +1,6 @@
 const { Router } = require("express");
-const async = require("seed/lib/seed/base/async");
 
 const { Tag, Product, ProductTag } = require("../../models");
-const { describe } = require("../../models/Product");
 
 // The `/api/tags` endpoint
 
