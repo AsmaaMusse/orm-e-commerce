@@ -102,8 +102,8 @@ router.delete("/:id", async (req, res) => {
 
     return res.json({ message: "Successfully deleted tag" });
   } catch (error) {
-    console.error(`[ERROR]: Failed to update tag | ${error.message}`);
-    return res.status(500).json({ error: "Failed to update tag" });
+    console.error(`[ERROR]: Failed to delete tag | ${error.message}`);
+    return res.status(500).json({ error: "Failed to delete tag" });
   }
 });
 

@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const getProducts = await Product.findAll({
-      attributes: ["id", "product_name", "price", "stock", "category_id"],
       include: [
         {
           model: Category,
@@ -25,14 +24,13 @@ router.get("/", async (req, res) => {
     });
 
     if (!getProducts) {
-      res.status(404).json({ message: "No Products found" });
-      return;
+      return res.status(404).json({ message: "No Products found" });
     }
 
-    res.status(200).json(getProducts);
+    return res.json(getProducts);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:getProductRouter" });
+    console.error(`[ERROR]: Failed to get products | ${error.message}`);
+    return res.status(500).json({ error: "Failed to get products" });
   }
 });
 
@@ -41,7 +39,6 @@ router.get("/:id", async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const getProduct = await Product.findByPk(req.params.id, {
-      attributes: ["id", "product_name", "price", "stock", "category_id"],
       include: [
         {
           model: Category,
@@ -55,13 +52,12 @@ router.get("/:id", async (req, res) => {
     });
 
     if (!getProduct) {
-      res.status(404).json({ message: "No 'Category by Id' found" });
-      return;
+      return res.status(404).json({ message: "No 'Category by Id' found" });
     }
-    res.status(200).json(getProduct);
+    return res.json(getProduct);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:getProductRouterById" });
+    console.error(`[ERROR]: Failed to get product | ${error.message}`);
+    return res.status(500).json({ error: "Failed to get product" });
   }
 });
 
@@ -140,20 +136,22 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", async (req, res) => {
   // delete one product by its `id` value
   try {
-    const deleteProduct = await Product.destroy({
+    const product = await Product.findByPk(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "No product found" });
+    }
+
+    await Category.destroy({
       where: {
         id: req.params.id,
       },
     });
 
-    if (!deleteProduct) {
-      res.status(404).json({ message: "No 'delete product by Id' found" });
-      return;
-    }
-    res.status(200).json(deleteProduct);
+    return res.json({ message: "Successfully deleted product" });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:deleteProductRouter" });
+    console.error(`[ERROR]: Failed to delete product | ${error.message}`);
+    return res.status(500).json({ error: "Failed to delete product" });
   }
 });
 
