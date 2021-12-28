@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
   // be sure to include its associated Products
   try {
     const getCategories = await Category.findAll({
-      attributes: ["id", "category_id"],
       include: {
         model: Product,
         attributes: ["id", "product_name", "price", "stock", "category_id"],
@@ -19,13 +18,13 @@ router.get("/", async (req, res) => {
     });
 
     if (!getCategories) {
-      res.status(404).json({ message: "No Categories found" });
-      return;
+      return res.status(404).json({ message: "No Categories found" });
     }
-    res.status(200).json(getCategories);
+
+    return res.json(getCategories);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:getCategoriesRouter" });
+    console.error(`[ERROR]: Failed to get categories | ${error.message}`);
+    return res.status(500).json({ error: "Failed to get categories" });
   }
 });
 
@@ -34,7 +33,6 @@ router.get("/:id", async (req, res) => {
   // be sure to include its associated Products
   try {
     const getCategory = await Category.findByPk(req.params.id, {
-      attributes: ["id", "category_id"],
       include: [
         {
           model: Product,
@@ -44,14 +42,13 @@ router.get("/:id", async (req, res) => {
     });
 
     if (!getCategory) {
-      res.status(404).json({ message: "No get category Id found" });
-      return;
+      return res.status(404).json({ message: "No get category Id found" });
     }
 
-    res.status(200).json(getCategory);
+    return res.json(getCategory);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:getCategory" });
+    console.error(`[ERROR]: Failed to get category | ${error.message}`);
+    return res.status(500).json({ error: "Failed to get category" });
   }
 });
 
@@ -59,51 +56,54 @@ router.post("/", async (req, res) => {
   // create a new category
   try {
     const newCategory = await Category.create(req.body);
-    res.status(200).json(newCategory);
+    return res.json(newCategory);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:newCategory" });
+    console.error(`[ERROR]: Failed to create category | ${error.message}`);
+    return res.status(500).json({ error: "Failed to create category" });
   }
 });
 
 router.put("/:id", async (req, res) => {
   // update a category by its `id` value
   try {
-    const updateCategory = await Category.update(req.body, {
+    const category = await Category.findByPk(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({ message: "No category found" });
+    }
+
+    await Category.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
 
-    if (!updateCategory) {
-      res.status(404).json({ message: "No update category Id found" });
-      return;
-    }
-
-    res.status(200).json(updateCategory);
+    return res.json({ message: "Successfully updated category" });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:updateCategory" });
+    console.error(`[ERROR]: Failed to update category | ${error.message}`);
+    return res.status(500).json({ error: "Failed to update category" });
   }
 });
 
 router.delete("/:id", async (req, res) => {
   // delete a category by its `id` value
   try {
-    const deleteCategory = await Category.destroy({
+    const category = await Category.findByPk(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({ message: "No category found" });
+    }
+
+    await Category.destroy({
       where: {
         id: req.params.id,
       },
     });
 
-    if (!deleteCategory) {
-      res.status(404).json({ message: "No delete category Id found" });
-      return;
-    }
-    res.status(200).json(deleteCategory);
+    return res.json({ message: "Successfully deleted category" });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Error!:deleteCategory" });
+    console.error(`[ERROR]: Failed to update category | ${error.message}`);
+    return res.status(500).json({ error: "Failed to update category" });
   }
 });
 
