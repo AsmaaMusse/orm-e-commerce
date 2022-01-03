@@ -23,13 +23,12 @@ https://github.com/AsmaaMusse/orm-e-commerce
 - Sequelize
 
 ## Usage:
-
 ### Installation
 
 ```
 git@github.com:AsmaaMusse/orm-e-commerce.git
 cd orm-e-commerce
-npm install
+npm install / npm i
 ```
 
 ### Start
@@ -46,6 +45,6 @@ npm run seed
 
 ## Screenshots:
 
-![workbench](.\assets\workbench.png)
+![workbench](./assets/workbench.png)
 
-![code](.\assets\code.png)
+![code](./assets/code.png)
