@@ -4,6 +4,13 @@
 
 For this project, my aim was to create an E-commerce back end which uses Express.js to interact with a MySQL work-bench database using sequelize.
 
+## Table of contents:
+- [Links](#links)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Screenshots](#screenshots)
+- [Contribute](#contribute)
+
 ## Links:
 
 Demo:
